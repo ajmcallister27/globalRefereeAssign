@@ -1,0 +1,22 @@
+{
+  "name": "globalrefereeassign",
+  "version": "1.0.0",
+  "description": "Retrieves games from ECKSRA, GameOfficials, and NSO and puts them in one place.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ajmcallister27/globalRefereeAssign.git"
+  },
+  "author": "Andrew McAllister",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ajmcallister27/globalRefereeAssign/issues"
+  },
+  "homepage": "https://github.com/ajmcallister27/globalRefereeAssign#readme",
+  "dependencies": {
+    "puppeteer": "^19.7.4"
+  }
+}
