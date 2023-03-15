@@ -14,33 +14,34 @@ const scraperObject = {
 				let links = [];
 				let dataObj = {};
 				let page = await browser.newPage();
-				let tableLength = 25;
+				let tableLength = 102;
 
 				await page.goto(link);
                 await page.type('#sitename', 'Andrew James McAllister');
                 await page.type('#password', 'WyceQSA59h!jJbk');
-                await newPage.click('#zLogon');
+                await page.click('#zLogon');
 
-                await newPage.goto('https://www.ekcsra.org/refereeinquiry');
+                await page.goto('https://www.ekcsra.org/refereeinquiry');
 
 				for (let i = 2; i < tableLength; i++) {
 					let url, date, day, time, league, client;
-                	if (await newPage.$(`tr:nth-child(${i}) > .term > a`) || "") url = await newPage.$eval(`tr:nth-child(${i}) > .term > a[href]`, text => text.textContent);
-					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(2)`) || "") date = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(2)`, text => text.textContent);
-					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`) || "") day = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`, text => text.textContent);
-					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`) || "") time = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`, text => text.textContent);
-					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`) || "") league = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`, text => text.textContent);
-					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`) || "") client = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`, text => text.textContent);
+                	if (await page.$(`tr:nth-child(${i}) > .term > a`) || "") url = await page.$eval(`tr:nth-child(${i}) > .term > a[href]`, text => text.textContent);
+					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(2)`) || "") date = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(2)`, text => text.textContent);
+					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`) || "") day = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`, text => text.textContent);
+					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`) || "") time = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`, text => text.textContent);
+					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`) || "") league = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`, text => text.textContent);
+					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`) || "") client = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`, text => text.textContent);
 					links.push(url);
 					// scrapedData.push({id: id, date: date, day: day, time: time, league: league, client: client});
 				}
+					console.log(links);
 
-				// if (await newPage.$eval('#col2 > dd > h1', text => text.textContent) !== 'Search AskTheRef.com Q&A Database') {
-				// 	dataObj['questionTitle'] = await newPage.$eval('#col2 > dd > h1', text => text.textContent);
-				// 	dataObj['questionSubtitle'] = await newPage.$eval('#col2 > dd > h2', text => text.textContent);
-				// 	if (await newPage.$('#col2 > dd > h3 > strong') || "") dataObj['questionAsker'] = await newPage.$eval('#col2 > dd > h3 > strong', text => text.textContent);
-				// 	if (await newPage.$('#col2 > dd > p > strong') || "") dataObj['questionLevel'] = await newPage.$eval('#col2 > dd > p > strong', text => text.textContent);
-				// 	dataObj['question'] = await newPage.$eval('#col2 > dd > p:last-child', text => text.textContent);
+				// if (await page.$eval('#col2 > dd > h1', text => text.textContent) !== 'Search AskTheRef.com Q&A Database') {
+				// 	dataObj['questionTitle'] = await page.$eval('#col2 > dd > h1', text => text.textContent);
+				// 	dataObj['questionSubtitle'] = await page.$eval('#col2 > dd > h2', text => text.textContent);
+				// 	if (await page.$('#col2 > dd > h3 > strong') || "") dataObj['questionAsker'] = await page.$eval('#col2 > dd > h3 > strong', text => text.textContent);
+				// 	if (await page.$('#col2 > dd > p > strong') || "") dataObj['questionLevel'] = await page.$eval('#col2 > dd > p > strong', text => text.textContent);
+				// 	dataObj['question'] = await page.$eval('#col2 > dd > p:last-child', text => text.textContent);
 
 				// 	dataObj['responses'] = [];
 				// 	responses = await page.$$('#col2 > dd');
@@ -55,9 +56,8 @@ const scraperObject = {
 				// 	}
 				// }
 				// resolve(dataObj);
-				await page.close();
 				resolve(dataObj);
-				await newPage.close();
+				// await page.close();
 			});
 
 			// for (let linkNum = 12; linkNum <= 20; linkNum++) {
