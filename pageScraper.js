@@ -5,20 +5,35 @@ const scraperObject = {
 	async scraper(browser) {
 		let page = await browser.newPage();
 		console.log(`Navigating to ${this.url}...`);
-		await page.goto(this.url, {timeout: 0});
+		await page.goto(this.url, { timeout: 0 });
 		let scrapedData = [];
 		async function scrapeCurrentPage() {
 			await page.waitForSelector('.body');
 
 			let pagePromise = (link) => new Promise(async (resolve, reject) => {
+				let links = [];
 				let dataObj = {};
 				let newPage = await browser.newPage();
+				let tableLength = 25;
+
 				await newPage.goto(link);
                 await newPage.type('#sitename', 'Andrew James McAllister');
                 await newPage.type('#password', 'WyceQSA59h!jJbk');
-                await page.click('#zLogon');
+                await newPage.click('#zLogon');
 
-                await page.waitForNavigation();
+                await newPage.goto('https://www.ekcsra.org/refereeinquiry');
+
+				for (let i = 2; i < tableLength; i++) {
+					let url, date, day, time, league, client;
+                	if (await newPage.$(`tr:nth-child(${i}) > .term > a`) || "") url = await newPage.$eval(`tr:nth-child(${i}) > .term > a[href]`, text => text.textContent);
+					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(2)`) || "") date = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(2)`, text => text.textContent);
+					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`) || "") day = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`, text => text.textContent);
+					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`) || "") time = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`, text => text.textContent);
+					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`) || "") league = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`, text => text.textContent);
+					// if (await newPage.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`) || "") client = await newPage.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`, text => text.textContent);
+					links.push(url);
+					// scrapedData.push({id: id, date: date, day: day, time: time, league: league, client: client});
+				}
 
 				// if (await newPage.$eval('#col2 > dd > h1', text => text.textContent) !== 'Search AskTheRef.com Q&A Database') {
 				// 	dataObj['questionTitle'] = await newPage.$eval('#col2 > dd > h1', text => text.textContent);
@@ -39,14 +54,13 @@ const scraperObject = {
 				// 		}
 				// 	}
 				// }
-				// resolve(dataObj);
+				resolve(dataObj);
 				await newPage.close();
 			});
 
 			// for (let linkNum = 12; linkNum <= 20; linkNum++) {
-			// 	let currentPageData = await pagePromise(`http://asktheref.com/search.asp?QuestionID=${linkNum}`);
-			// 	console.log(`Scraped started on question ${linkNum}`)
-			// 	scrapedData.push(currentPageData);
+				let currentPageData = await pagePromise(`https://www.ekcsra.org/logon`);
+				scrapedData.push(currentPageData);
 			// }
 
 			return scrapedData;
