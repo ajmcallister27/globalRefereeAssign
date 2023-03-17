@@ -6,35 +6,40 @@ const scraperObject = {
 		let page = await browser.newPage();
 		console.log(`Navigating to ${this.url}...`);
 		await page.goto(this.url, { timeout: 0 });
+		await page.type('#sitename', 'Andrew James McAllister');
+		await page.type('#password', 'WyceQSA59h!jJbk');
+		await page.click('#zLogon');
+
+		await page.goto('https://www.ekcsra.org/refereeinquiry');
 		let scrapedData = [];
+
 		async function scrapeCurrentPage() {
-			await page.waitForSelector('.body');
+			// await page.waitForSelector('.body');
+			let links = [];
+			let page = await browser.newPage();
+			let tableLength = 102;
+
+			await page.goto(this.url);
+
+			for (let i = 2; i < tableLength; i++) {
+				let url;
+				if (await page.$(`tr:nth-child(${i}) > .term > a`) || "") url = await page.$eval(`tr:nth-child(${i}) > .term > a[href]`, text => text.textContent);
+				links.push(url);
+			}
 
 			let pagePromise = (link) => new Promise(async (resolve, reject) => {
-				let links = [];
 				let dataObj = {};
-				let page = await browser.newPage();
-				let tableLength = 102;
+				let date;
+				let infoPage = await browser.newPage();
 
-				await page.goto(link);
-                await page.type('#sitename', 'Andrew James McAllister');
-                await page.type('#password', 'WyceQSA59h!jJbk');
-                await page.click('#zLogon');
-
-                await page.goto('https://www.ekcsra.org/refereeinquiry');
-
-				for (let i = 2; i < tableLength; i++) {
-					let url, date, day, time, league, client;
-                	if (await page.$(`tr:nth-child(${i}) > .term > a`) || "") url = await page.$eval(`tr:nth-child(${i}) > .term > a[href]`, text => text.textContent);
-					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(2)`) || "") date = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(2)`, text => text.textContent);
-					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`) || "") day = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`, text => text.textContent);
-					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`) || "") time = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`, text => text.textContent);
-					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`) || "") league = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`, text => text.textContent);
-					// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`) || "") client = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`, text => text.textContent);
-					links.push(url);
-					// scrapedData.push({id: id, date: date, day: day, time: time, league: league, client: client});
-				}
-					console.log(links);
+				await infoPage.goto(link);
+				console.log(`I went to ${link}`)
+				if (await infoPage.$(`tr:nth-child(2) > .inputNormal:nth-child(2)`) || "") date = await infoPage.$eval(`tr:nth-child(2) > .inputNormal:nth-child(2)`, text => text.textContent);
+				// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`) || "") day = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(3)`, text => text.textContent);
+				// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`) || "") time = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(4)`, text => text.textContent);
+				// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`) || "") league = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(5)`, text => text.textContent);
+				// if (await page.$(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`) || "") client = await page.$eval(`tr:nth-child(${i}) > .inctrNormal:nth-child(6)`, text => text.textContent);
+				// scrapedData.push({id: id, date: date, day: day, time: time, league: league, client: client});
 
 				// if (await page.$eval('#col2 > dd > h1', text => text.textContent) !== 'Search AskTheRef.com Q&A Database') {
 				// 	dataObj['questionTitle'] = await page.$eval('#col2 > dd > h1', text => text.textContent);
@@ -57,13 +62,13 @@ const scraperObject = {
 				// }
 				// resolve(dataObj);
 				resolve(dataObj);
-				// await page.close();
+				// await infoPage.close();
 			});
 
-			// for (let linkNum = 12; linkNum <= 20; linkNum++) {
-				let currentPageData = await pagePromise(`https://www.ekcsra.org/logon`);
+			for (let linkNum = 0; linkNum <= links.length; linkNum++) {
+				let currentPageData = await pagePromise(`https://www.ekcsra.org/refereeinquiry?action=Display&key=${links[linkNum]}`);
 				scrapedData.push(currentPageData);
-			// }
+			}
 
 			return scrapedData;
 		}
