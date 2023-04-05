@@ -9,6 +9,7 @@ const scraperObject = {
 		await page.type('#sitename', 'Andrew James McAllister');
 		await page.type('#password', 'WyceQSA59h!jJbk');
 		await page.click('#zLogon');
+		await page.waitForNavigation(); // Comment out if using headless
 		await page.goto('https://www.ekcsra.org/refereeinquiry');
 		let scrapedData = [];
 
@@ -99,14 +100,14 @@ const scraperObject = {
 			// Pagination control
 			let nextButtonExist = false;
 			try {
-				const nextButton = await page.$eval('.next > a', a => a.textContent);
+				const nextButton = await page.$eval('tr:nth-child(102)', a => a.textContent);
 				nextButtonExist = true;
 			}
 			catch(err) {
 				nextButtonExist = false;
 			}
 			if (nextButtonExist) {
-				await page.click('.next > a');
+				await page.click('tr:nth-child(102) a:nth-child(1) > img');
 				return scrapeCurrentPage();
 			}
 			await page.close();
