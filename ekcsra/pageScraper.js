@@ -3,30 +3,36 @@ const fs = require('fs');
 const scraperObject = {
 	url: 'https://www.ekcsra.org/logon',
 	async scraper(browser) {
+		let credentials = JSON.parse(fs.readFileSync('credentials.json', 'utf-8'));
 		let page = await browser.newPage();
 		console.log(`Navigating to ${this.url}...`);
 		await page.goto(this.url, { timeout: 0 });
-		await page.type('#sitename', 'Andrew James McAllister');
-		await page.type('#password', 'WyceQSA59h!jJbk');
+		await page.type('#sitename', `${credentials.ekcsraUsername}`);
+		await page.type('#password', `${credentials.ekcsraPassword}`);
 		await page.click('#zLogon');
-		await page.waitForNavigation(); // Comment out if using headless
+		// await page.waitForNavigation(); // Comment out if using headless
 		await page.goto('https://www.ekcsra.org/refereeinquiry');
 		let scrapedData = [];
 
 		async function scrapeCurrentPage() {
 			let links = [];
-			let tableLength = 102;
 
-			for (let i = 2; i < tableLength; i++) {
-				let url = '';
-				if (await page.$$(`tr:nth-child(${i}) > .term > a`) || "") url = await page.$eval(`tr:nth-child(${i}) > .term > a`, text => text.textContent);
-				console.log(url)
-				links.push(url);
+			for (let i = 2;; i++) {
+				try {
+					let url = '';
+					if (await page.$$(`tr:nth-child(${i}) > .term > a`) || "") url = await page.$eval(`tr:nth-child(${i}) > .term > a`, text => text.textContent);
+					console.log(url)
+					links.push(url);
+				}
+				catch (e) {
+					break;
+				}
 			}
 
 			let pagePromise = (link, gameId) => new Promise(async (resolve, reject) => {
+
 				let dataObj = {};
-				let date, time, field, gender, league, client, level, authority, division, season, priority, type, status, rank, home, away, ref, ar1, ar2, r4, mtr, refPay, ar1Pay, ar2Pay, r4Pay, mtrPay;
+				let date, time, field, gender, league, client, level, authority, division, season, priority, type, status, rank, home, away, notes, ref, ar1, ar2, r4, mtr, refPay, ar1Pay, ar2Pay, r4Pay, mtrPay;
 				let infoPage = await browser.newPage();
 				await infoPage.goto(link);
 
@@ -46,49 +52,67 @@ const scraperObject = {
 				rank = await infoPage.$eval(`tr:nth-child(8) > .inputNormal:nth-child(4)`, text => text.textContent);
 				home = await infoPage.$eval(`tr:nth-child(9) > .inputNormal:nth-child(2)`, text => text.textContent);
 				away = await infoPage.$eval(`tr:nth-child(9) > .inputNormal:nth-child(4)`, text => text.textContent);
-				ref = await infoPage.$eval(`tr:nth-child(11) > .input`, text => text.textContent);
-				try { ar1 = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch(err) { ar1 = "nan" };
-				try { ar2 = await infoPage.$eval(`tr:nth-child(13) > .input`, text => text.textContent) } catch(err) { ar2 = "nan" };
-				try { r4 = await infoPage.$eval(`tr:nth-child(14) > .input`, text => text.textContent) } catch(err) { r4 = "nan" };
-			 	try { mtr = await infoPage.$eval(`tr:nth-child(15) > .input`, text => text.textContent) } catch(err) { mtr = "nan" };
-				refPay = await infoPage.$eval(`tr:nth-child(11) > .inputNormal`, text => text.textContent);
-				try { ar1Pay = await infoPage.$eval(`tr:nth-child(12) > .inputNormal`, text => text.textContent) }  catch(err) { ar1Pay = "nan" };
-				try { ar2Pay = await infoPage.$eval(`tr:nth-child(13) > .inputNormal`, text => text.textContent) }  catch(err) { ar2Pay = "nan" };
-				try { r4Pay = await infoPage.$eval(`tr:nth-child(14) > .inputNormal`, text => text.textContent) }  catch(err) { r4Pay = "nan" };
-				try { mtrPay = await infoPage.$eval(`tr:nth-child(15) > .inputNormal`, text => text.textContent) }  catch(err) { mtrPay = "nan" };
+				try {
+					notesLabel = await infoPage.$eval(`#x_formdata tr:nth-child(10) > .term`, text => text.textContent) 
+					if (notesLabel == 'Notes' ) {
+						notes = await infoPage.$eval(`tr:nth-child(10) > .inputNormal`, text => text.textContent)
+						try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch (err) { ref="nan"; console.log(err)};// try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch(err) {ref="nan"} };
+						try { ar1 = await infoPage.$eval(`tr:nth-child(13) > .input`, text => text.textContent) } catch (err) { ar1 = "nan" };
+						try { ar2 = await infoPage.$eval(`tr:nth-child(14) > .input`, text => text.textContent) } catch (err) { ar2 = "nan" };
+						try { r4 = await infoPage.$eval(`tr:nth-child(15) > .input`, text => text.textContent) } catch (err) { r4 = "nan" };
+						try { mtr = await infoPage.$eval(`tr:nth-child(16) > .input`, text => text.textContent) } catch (err) { mtr = "nan" };
+						refPay = await infoPage.$eval(`tr:nth-child(12) > .inputNormal`, text => text.textContent);
+						try { ar1Pay = await infoPage.$eval(`tr:nth-child(13) > .inputNormal`, text => text.textContent) } catch (err) { ar1Pay = "nan" };
+						try { ar2Pay = await infoPage.$eval(`tr:nth-child(14) > .inputNormal`, text => text.textContent) } catch (err) { ar2Pay = "nan" };
+						try { r4Pay = await infoPage.$eval(`tr:nth-child(15) > .inputNormal`, text => text.textContent) } catch (err) { r4Pay = "nan" };
+						try { mtrPay = await infoPage.$eval(`tr:nth-child(16) > .inputNormal`, text => text.textContent) } catch (err) { mtrPay = "nan" };
+					}
+				} catch (err) {
+					try { ref = await infoPage.$eval(`tr:nth-child(11) > .input`, text => text.textContent) } catch (err) { ref="nan"; console.log(err)};// try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch(err) {ref="nan"} };
+					try { ar1 = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch (err) { ar1 = "nan" };
+					try { ar2 = await infoPage.$eval(`tr:nth-child(13) > .input`, text => text.textContent) } catch (err) { ar2 = "nan" };
+					try { r4 = await infoPage.$eval(`tr:nth-child(14) > .input`, text => text.textContent) } catch (err) { r4 = "nan" };
+					try { mtr = await infoPage.$eval(`tr:nth-child(15) > .input`, text => text.textContent) } catch (err) { mtr = "nan" };
+					refPay = await infoPage.$eval(`tr:nth-child(11) > .inputNormal`, text => text.textContent);
+					try { ar1Pay = await infoPage.$eval(`tr:nth-child(12) > .inputNormal`, text => text.textContent) } catch (err) { ar1Pay = "nan" };
+					try { ar2Pay = await infoPage.$eval(`tr:nth-child(13) > .inputNormal`, text => text.textContent) } catch (err) { ar2Pay = "nan" };
+					try { r4Pay = await infoPage.$eval(`tr:nth-child(14) > .inputNormal`, text => text.textContent) } catch (err) { r4Pay = "nan" };
+					try { mtrPay = await infoPage.$eval(`tr:nth-child(15) > .inputNormal`, text => text.textContent) } catch (err) { mtrPay = "nan" };
 
-				dataObj = {
-					source: 'EKCSRA',
-					id: gameId,
-					date: date,
-					time: time,
-					field: field,
-					gender: gender,
-					league: league,
-					client: client,
-					level: level,
-					authority: authority,
-					division: division,
-					season: season,
-					priority: priority,
-					type: type,
-					status: status,
-					rank: rank,
-					home: home,
-					away: away,
-					ref: ref,
-					ar1: ar1,
-					ar2: ar2,
-					r4: r4,
-					mtr: mtr,
-					refPay: refPay,
-					ar1Pay: ar1Pay,
-					ar2Pay: ar2Pay,
-					r4Pay: r4Pay,
-					mtrPay: mtrPay,
+					dataObj = {
+						source: 'EKCSRA',
+						id: gameId,
+						date: date,
+						time: time,
+						field: field,
+						gender: gender,
+						league: league,
+						client: client,
+						level: level,
+						authority: authority,
+						division: division,
+						season: season,
+						priority: priority,
+						type: type,
+						status: status,
+						rank: rank,
+						home: home,
+						away: away,
+						ref: ref,
+						ar1: ar1,
+						ar2: ar2,
+						r4: r4,
+						mtr: mtr,
+						refPay: refPay,
+						ar1Pay: ar1Pay,
+						ar2Pay: ar2Pay,
+						r4Pay: r4Pay,
+						mtrPay: mtrPay,
+					} 
 				}
 				resolve(dataObj);
 				await infoPage.close();
+
 			});
 
 			for (let linkNum = 0; linkNum < links.length; linkNum++) {
@@ -98,16 +122,27 @@ const scraperObject = {
 			}
 
 			// Pagination control
-			let nextButtonExist = false;
+			let moreGamesExist = false;
+			let nextStartNum = 1;
 			try {
-				const nextButton = await page.$eval('tr:nth-child(102)', a => a.textContent);
-				nextButtonExist = true;
+				const moreGames = await page.$eval('tr:nth-child(102)', text => text.textContent);
+				let gameNumsFull = moreGames.split("to ").pop();
+				let gameNums = gameNumsFull.split(" of ");
+				let lastGameNum = Number(gameNums[0]);
+				let totalGameNum = Number(gameNums[1]);
+				nextStartNum = lastGameNum + 1;
+				console.log(nextStartNum);
+				if (totalGameNum > nextStartNum) {
+					moreGamesExist = true;
+					console.log('exists')
+				}
 			}
-			catch(err) {
-				nextButtonExist = false;
+			catch (err) {
+				moreGamesExist = false;
 			}
-			if (nextButtonExist) {
-				await page.click('tr:nth-child(102) a:nth-child(1) > img');
+			while (moreGamesExist) {
+				console.log('going there')
+				await page.goto(`https://www.ekcsra.org/refereeinquiry?action=next&startat=${nextStartNum}`);
 				return scrapeCurrentPage();
 			}
 			await page.close();
