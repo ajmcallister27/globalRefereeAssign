@@ -2,17 +2,17 @@ const fs = require('fs');
 const app = require('../app/index');
 
 const scraperObject = {
-	url: 'https://www.ekcsra.org/logon',
+	url: 'https://www.nwsoccerofficials.org/logon',
 	async scraper(browser) {
 		let credentials = JSON.parse(fs.readFileSync('credentials.json', 'utf-8'));
 		let page = await browser.newPage();
 		console.log(`Navigating to ${this.url}...`);
 		await page.goto(this.url, { timeout: 0 });
-		await page.type('#sitename', `${credentials.ekcsraUsername}`);
-		await page.type('#password', `${credentials.ekcsraPassword}`);
+		await page.type('#sitename', `${credentials.nsoUsername}`);
+		await page.type('#password', `${credentials.nsoPassword}`);
 		await page.click('#zLogon');
 		// await page.waitForNavigation(); // Comment out if using headless
-		await page.goto('https://www.ekcsra.org/refereeinquiry');
+		await page.goto('https://www.nwsoccerofficials.org/refereeinquiry');
 		let scrapedData = [];
 
 		async function scrapeCurrentPage() {

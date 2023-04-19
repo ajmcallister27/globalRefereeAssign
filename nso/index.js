@@ -3,6 +3,6 @@ const scraperController = require('./pageController');
 
 let browserInstance = browserObject.startBrowser();
 
-module.exports.ekcsraScrape = function () {
+module.exports.nsoScrape = function () {
     scraperController(browserInstance);
 }

@@ -6,13 +6,16 @@
 //  - Update
 
 const fs = require('fs');
+const cron = require('node-cron');
+const ekcsra = require('../ekcsra/index');
+
 const allEkcsraGames = JSON.parse(fs.readFileSync('data/ekcsraGames.json', 'utf-8'));
 const allGameOfficialsGames = JSON.parse(fs.readFileSync('data/gameOfficialsGames.json', 'utf-8'));
 const allNSOGames = JSON.parse(fs.readFileSync('data/NSOGames.json', 'utf-8'));
 
 let allGames = [];
 
-function combineSources() {
+function combineSources () {
     allGames = allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames);
     fs.writeFile('data/allGames.json', JSON.stringify(allGames), (error) => {
         if (error) console.log(error);
@@ -37,9 +40,20 @@ function filterGames(filter) {
     }
 }
 
+cron.schedule('0 0 * * * *', () => init() )
+
 function init() {
+    ekcsra.ekcsraScrape();
+    combineSources();
+    filterGames('available');
+}
+function update() {
     combineSources();
     filterGames('available');
 }
 
+module.exports.init = function () { init(); }
+module.exports.update = function () { update(); }
+
 init();
+update();

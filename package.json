@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/ajmcallister27/globalRefereeAssign#readme",
   "dependencies": {
+    "node-cron": "^3.0.2",
     "puppeteer": "^19.7.4"
   }
 }
