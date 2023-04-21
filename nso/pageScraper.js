@@ -118,7 +118,7 @@ const scraperObject = {
 
 			for (let linkNum = 0; linkNum < links.length; linkNum++) {
 				console.log(`on link ${links[linkNum]}`)
-				let currentPageData = await pagePromise(`https://www.ekcsra.org/refereeinquiry?action=Display&key=${links[linkNum]}`, links[linkNum]);
+				let currentPageData = await pagePromise(`https://www.nwsoccerofficials.org/refereeinquiry?action=Display&key=${links[linkNum]}`, links[linkNum]);
 				scrapedData.push(currentPageData);
 			}
 
@@ -126,7 +126,7 @@ const scraperObject = {
 			let moreGamesExist = false;
 			let nextStartNum = 1;
 			try {
-				const moreGames = await page.$eval('tr:nth-child(102)', text => text.textContent);
+				const moreGames = await page.$eval('tr:nth-child(252)', text => text.textContent);
 				let gameNumsFull = moreGames.split("to ").pop();
 				let gameNums = gameNumsFull.split(" of ");
 				let lastGameNum = Number(gameNums[0]);
@@ -143,7 +143,7 @@ const scraperObject = {
 			}
 			while (moreGamesExist) {
 				console.log('going there')
-				await page.goto(`https://www.ekcsra.org/refereeinquiry?action=next&startat=${nextStartNum}`);
+				await page.goto(`https://www.nwsoccerofficials.org/refereeinquiry?action=next&startat=${nextStartNum}`);
 				return scrapeCurrentPage();
 			}
 			await page.close();
@@ -152,7 +152,7 @@ const scraperObject = {
 		}
 
 		let data = await scrapeCurrentPage();
-		fs.writeFile('data/ekcsraGames.json', JSON.stringify(data), (error) => {
+		fs.writeFile('app/src/data/nsoGames.json', JSON.stringify(data), (error) => {
 			if (error) console.log(error);
 			console.log('Data written to ekcsraGames.json successfully')
 			app.update();

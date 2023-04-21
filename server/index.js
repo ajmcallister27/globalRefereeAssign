@@ -9,18 +9,19 @@ const fs = require('fs');
 const cron = require('node-cron');
 const ekcsra = require('../ekcsra/index');
 
-const allEkcsraGames = JSON.parse(fs.readFileSync('data/ekcsraGames.json', 'utf-8'));
-const allGameOfficialsGames = JSON.parse(fs.readFileSync('data/gameOfficialsGames.json', 'utf-8'));
-const allNSOGames = JSON.parse(fs.readFileSync('data/NSOGames.json', 'utf-8'));
+const allEkcsraGames = JSON.parse(fs.readFileSync('app/src/data/ekcsraGames.json', 'utf-8'));
+const allGameOfficialsGames = JSON.parse(fs.readFileSync('app/src/data/gameOfficialsGames.json', 'utf-8'));
+const allNSOGames = JSON.parse(fs.readFileSync('app/src/data/nsoGames.json', 'utf-8'));
 
 let allGames = [];
 
 function combineSources () {
-    allGames = allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames);
-    fs.writeFile('data/allGames.json', JSON.stringify(allGames), (error) => {
-        if (error) console.log(error);
-        console.log('Data written to allGames.json successfully')
-    });
+    allGames = (allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames)).filter(value => Object.keys(value).length !== 0);
+    console.log(allGames)
+    // fs.writeFile('app/src/data/allGames.json', JSON.stringify(allGames), (error) => {
+    //     if (error) console.log(error);
+    //     console.log('Data written to allGames.json successfully')
+    // });
 }
 
 function filterGames(filter) {
@@ -33,7 +34,7 @@ function filterGames(filter) {
                 availableGames.push(game);
             }
         }
-		fs.writeFile('data/availableGames.json', JSON.stringify(availableGames), (error) => {
+		fs.writeFile('app/src/data/availableGames.json', JSON.stringify(availableGames), (error) => {
 			if (error) console.log(error);
 			console.log('Data written to availableGames.json successfully')
 		});

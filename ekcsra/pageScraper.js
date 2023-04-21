@@ -1,5 +1,5 @@
 const fs = require('fs');
-const app = require('../app/index');
+const app = require('../server/index');
 
 const scraperObject = {
 	url: 'https://www.ekcsra.org/logon',
@@ -57,28 +57,28 @@ const scraperObject = {
 					notesLabel = await infoPage.$eval(`#x_formdata tr:nth-child(10) > .term`, text => text.textContent) 
 					if (notesLabel == 'Notes' ) {
 						notes = await infoPage.$eval(`tr:nth-child(10) > .inputNormal`, text => text.textContent)
-						try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch (err) { ref="nan"; console.log(err)};// try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch(err) {ref="nan"} };
-						try { ar1 = await infoPage.$eval(`tr:nth-child(13) > .input`, text => text.textContent) } catch (err) { ar1 = "nan" };
-						try { ar2 = await infoPage.$eval(`tr:nth-child(14) > .input`, text => text.textContent) } catch (err) { ar2 = "nan" };
-						try { r4 = await infoPage.$eval(`tr:nth-child(15) > .input`, text => text.textContent) } catch (err) { r4 = "nan" };
-						try { mtr = await infoPage.$eval(`tr:nth-child(16) > .input`, text => text.textContent) } catch (err) { mtr = "nan" };
+						try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch (err) { ref="NA"; console.log(err)};// try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch(err) {ref="NA"} };
+						try { ar1 = await infoPage.$eval(`tr:nth-child(13) > .input`, text => text.textContent) } catch (err) { ar1 = "NA" };
+						try { ar2 = await infoPage.$eval(`tr:nth-child(14) > .input`, text => text.textContent) } catch (err) { ar2 = "NA" };
+						try { r4 = await infoPage.$eval(`tr:nth-child(15) > .input`, text => text.textContent) } catch (err) { r4 = "NA" };
+						try { mtr = await infoPage.$eval(`tr:nth-child(16) > .input`, text => text.textContent) } catch (err) { mtr = "NA" };
 						refPay = await infoPage.$eval(`tr:nth-child(12) > .inputNormal`, text => text.textContent);
-						try { ar1Pay = await infoPage.$eval(`tr:nth-child(13) > .inputNormal`, text => text.textContent) } catch (err) { ar1Pay = "nan" };
-						try { ar2Pay = await infoPage.$eval(`tr:nth-child(14) > .inputNormal`, text => text.textContent) } catch (err) { ar2Pay = "nan" };
-						try { r4Pay = await infoPage.$eval(`tr:nth-child(15) > .inputNormal`, text => text.textContent) } catch (err) { r4Pay = "nan" };
-						try { mtrPay = await infoPage.$eval(`tr:nth-child(16) > .inputNormal`, text => text.textContent) } catch (err) { mtrPay = "nan" };
+						try { ar1Pay = await infoPage.$eval(`tr:nth-child(13) > .inputNormal`, text => text.textContent) } catch (err) { ar1Pay = "NA" };
+						try { ar2Pay = await infoPage.$eval(`tr:nth-child(14) > .inputNormal`, text => text.textContent) } catch (err) { ar2Pay = "NA" };
+						try { r4Pay = await infoPage.$eval(`tr:nth-child(15) > .inputNormal`, text => text.textContent) } catch (err) { r4Pay = "NA" };
+						try { mtrPay = await infoPage.$eval(`tr:nth-child(16) > .inputNormal`, text => text.textContent) } catch (err) { mtrPay = "NA" };
 					}
 				} catch (err) {
-					try { ref = await infoPage.$eval(`tr:nth-child(11) > .input`, text => text.textContent) } catch (err) { ref="nan"; console.log(err)};// try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch(err) {ref="nan"} };
-					try { ar1 = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch (err) { ar1 = "nan" };
-					try { ar2 = await infoPage.$eval(`tr:nth-child(13) > .input`, text => text.textContent) } catch (err) { ar2 = "nan" };
-					try { r4 = await infoPage.$eval(`tr:nth-child(14) > .input`, text => text.textContent) } catch (err) { r4 = "nan" };
-					try { mtr = await infoPage.$eval(`tr:nth-child(15) > .input`, text => text.textContent) } catch (err) { mtr = "nan" };
+					try { ref = await infoPage.$eval(`tr:nth-child(11) > .input`, text => text.textContent) } catch (err) { ref="NA"; console.log(err)};// try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch(err) {ref="NA"} };
+					try { ar1 = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch (err) { ar1 = "NA" };
+					try { ar2 = await infoPage.$eval(`tr:nth-child(13) > .input`, text => text.textContent) } catch (err) { ar2 = "NA" };
+					try { r4 = await infoPage.$eval(`tr:nth-child(14) > .input`, text => text.textContent) } catch (err) { r4 = "NA" };
+					try { mtr = await infoPage.$eval(`tr:nth-child(15) > .input`, text => text.textContent) } catch (err) { mtr = "NA" };
 					refPay = await infoPage.$eval(`tr:nth-child(11) > .inputNormal`, text => text.textContent);
-					try { ar1Pay = await infoPage.$eval(`tr:nth-child(12) > .inputNormal`, text => text.textContent) } catch (err) { ar1Pay = "nan" };
-					try { ar2Pay = await infoPage.$eval(`tr:nth-child(13) > .inputNormal`, text => text.textContent) } catch (err) { ar2Pay = "nan" };
-					try { r4Pay = await infoPage.$eval(`tr:nth-child(14) > .inputNormal`, text => text.textContent) } catch (err) { r4Pay = "nan" };
-					try { mtrPay = await infoPage.$eval(`tr:nth-child(15) > .inputNormal`, text => text.textContent) } catch (err) { mtrPay = "nan" };
+					try { ar1Pay = await infoPage.$eval(`tr:nth-child(12) > .inputNormal`, text => text.textContent) } catch (err) { ar1Pay = "NA" };
+					try { ar2Pay = await infoPage.$eval(`tr:nth-child(13) > .inputNormal`, text => text.textContent) } catch (err) { ar2Pay = "NA" };
+					try { r4Pay = await infoPage.$eval(`tr:nth-child(14) > .inputNormal`, text => text.textContent) } catch (err) { r4Pay = "NA" };
+					try { mtrPay = await infoPage.$eval(`tr:nth-child(15) > .inputNormal`, text => text.textContent) } catch (err) { mtrPay = "NA" };
 
 					dataObj = {
 						source: 'EKCSRA',
@@ -152,7 +152,7 @@ const scraperObject = {
 		}
 
 		let data = await scrapeCurrentPage();
-		fs.writeFile('data/ekcsraGames.json', JSON.stringify(data), (error) => {
+		fs.writeFile('app/src/data/ekcsraGames.json', JSON.stringify(data), (error) => {
 			if (error) console.log(error);
 			console.log('Data written to ekcsraGames.json successfully')
 			app.update();
