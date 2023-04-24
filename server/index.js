@@ -16,12 +16,12 @@ const allNSOGames = JSON.parse(fs.readFileSync('app/src/data/nsoGames.json', 'ut
 let allGames = [];
 
 function combineSources () {
-    allGames = (allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames)).filter(value => Object.keys(value).length !== 0);
-    console.log(allGames)
-    // fs.writeFile('app/src/data/allGames.json', JSON.stringify(allGames), (error) => {
-    //     if (error) console.log(error);
-    //     console.log('Data written to allGames.json successfully')
-    // });
+    allGames = allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames);
+    allGames = allGames.filter(value => Object.keys(value).length !== 0);
+    fs.writeFile('app/src/data/allGames.json', JSON.stringify(allGames), (error) => {
+        if (error) console.log(error);
+        console.log('Data written to allGames.json successfully')
+    });
 }
 
 function filterGames(filter) {
@@ -57,4 +57,4 @@ module.exports.init = function () { init(); }
 module.exports.update = function () { update(); }
 
 init();
-update();
+// update();
