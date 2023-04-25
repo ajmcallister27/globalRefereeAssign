@@ -41,12 +41,12 @@ function filterGames(filter) {
     }
 }
 
-cron.schedule('0 0 * * * *', () => init() )
 
 function init() {
     ekcsra.ekcsraScrape();
     combineSources();
     filterGames('available');
+    cron.schedule('0 0 * * * *', () => init() )
 }
 function update() {
     combineSources();

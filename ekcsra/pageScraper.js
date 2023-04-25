@@ -4,7 +4,7 @@ const app = require('../server/index');
 const scraperObject = {
 	url: 'https://www.ekcsra.org/logon',
 	async scraper(browser) {
-		let credentials = JSON.parse(fs.readFileSync('credentials.json', 'utf-8'));
+		let credentials = JSON.parse(fs.readFileSync('../credentials.json', 'utf-8'));
 		let page = await browser.newPage();
 		console.log(`Navigating to ${this.url}...`);
 		await page.goto(this.url, { timeout: 0 });
