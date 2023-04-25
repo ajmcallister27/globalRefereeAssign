@@ -3,8 +3,7 @@
 }
 
 .App-header {
-  background-color: #1d8f00;
-  background-image: url('https://www.azutura.com/media/catalog/product/cache/52/image/650x/040ec09b1e35df139433887a97daa66f/W/S/WS-44871_WP.jpg');
+  background-color: #282c34;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
