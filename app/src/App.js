@@ -2,8 +2,6 @@ import './App.css';
 import gameData from './data/allGames.json'
 import { DataGrid } from '@mui/x-data-grid';
 
-console.log(gameData);
-
 const columns = [
   { field: 'source', headerName: 'Source', width: 100 },
   { field: 'id', headerName: 'Game ID', width: 100 },
