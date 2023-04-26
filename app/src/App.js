@@ -1,7 +1,6 @@
 import './App.css';
 import gameData from './data/allGames.json'
 import { DataGrid } from '@mui/x-data-grid';
-import init from './server/index';
 
 console.log(gameData);
 
@@ -33,7 +32,6 @@ function Links() {
 
 
 function Info() {
-  init();
   return (
     <div style={{ height: 555, width: '100%' }}>
       <DataGrid
