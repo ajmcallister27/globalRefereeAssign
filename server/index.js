@@ -18,10 +18,10 @@ let allGames = [];
 function combineSources () {
     allGames = (allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames)).filter(value => Object.keys(value).length !== 0);
     console.log(allGames)
-    // fs.writeFile('app/src/data/allGames.json', JSON.stringify(allGames), (error) => {
-    //     if (error) console.log(error);
-    //     console.log('Data written to allGames.json successfully')
-    // });
+    fs.writeFile('app/src/data/allGames.json', JSON.stringify(allGames), (error) => {
+        if (error) console.log(error);
+        console.log('Data written to allGames.json successfully')
+    });
 }
 
 function filterGames(filter) {

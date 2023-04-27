@@ -1,5 +1,5 @@
 import './App.css';
-import gameData from './data/allGames.json'
+import gameData from './data/ekcsraGames.json'
 import { DataGrid } from '@mui/x-data-grid';
 
 const columns = [
