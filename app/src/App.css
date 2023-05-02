@@ -4,7 +4,8 @@
 
 .App-header {
   background-color: #228f47;
-  background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXNZHhPbRoo6vond8ms2wsAuziv4-azvombtU6ZMFnyZqfnOVNrJE5v2BSHYtFTVbEmnowCPE3Cd4:https://media.istockphoto.com/id/535983237/photo/beautiful-green-grass-pattern-from-golf-course.jpg%3Fs%3D612x612%26w%3D0%26k%3D20%26c%3DEsWZu1jXQ2AJ5kkNp-jUu6ZmlYwdqHbqZCEtRHVWslE%3D&usqp=CAU&ec=48665701');
+  background-image: url('../public/bgimg/ar.jpg');
+  background-size: cover;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
