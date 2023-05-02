@@ -4,8 +4,7 @@
 
 .App-header {
   background-color: #228f47;
-  background-image: url('../public/bgimg/ar.jpg');
-  background-size: cover;
+  background-image: url('../public/bgimg/grass.jpg');
   min-height: 100vh;
   display: flex;
   flex-direction: column;

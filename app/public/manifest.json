@@ -19,7 +19,8 @@
     }
   ],
   "start_url": ".",
+  "theme_color" : "#ffffff",
+  "background_color" : "#417505",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "description" : "Referee assigning from EKCSRA, EYSA, SnVYSA, and NSO."
 }
