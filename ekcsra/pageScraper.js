@@ -154,6 +154,7 @@ const scraperObject = {
 		let data = await scrapeCurrentPage();
 		fs.writeFile('app/src/data/ekcsraGames.json', JSON.stringify(data), (error) => {
 			if (error) console.log(error);
+			console.log(data, `Games: ${data.length}`)
 			console.log('Data written to ekcsraGames.json successfully')
 			app.update();
 			return;
