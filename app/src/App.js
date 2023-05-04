@@ -1,12 +1,13 @@
 import './App.css';
-import gameData from './data/ekcsraGames.json'
+import gameData from './data/allGames.json'
 import { DataGrid } from '@mui/x-data-grid';
+import { Link } from '@mui/material';
 
 console.log(gameData);
 
 const columns = [
   { field: 'source', headerName: 'Source', width: 100 },
-  { field: 'id', headerName: 'Game ID', width: 100 },
+  { field: 'id', headerName: 'Game ID', width: 100, renderCell: (cellValues) => { return <Link href={`#${cellValues.row.url}`}>Link</Link> } },
   { field: 'date', headerName: 'Date', width: 200 },
   { field: 'time', headerName: 'Time', width: 100 },
   { field: 'field', headerName: 'Field', width: 150 },
@@ -25,7 +26,7 @@ const columns = [
 function Links() {
   return (
     <div className='Links'>
-      <h2>Available Assigning Sites:</h2>
+      <h2>Available Games:</h2>
     </div>
   );
 }
