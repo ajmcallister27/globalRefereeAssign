@@ -13,6 +13,7 @@ const columns = [
 		width: 100,
 		renderCell: (params) => (
 			<Link href={`https://www.ekcsra.org/refereeinquiry?action=Display&key=${params.value}`}>{params.value}</Link>
+			
 		)
 	},
 	{ field: 'date', headerName: 'Date', width: 200 },
@@ -22,7 +23,17 @@ const columns = [
 	{ field: 'level', headerName: 'Level', width: 70 },
 	{ field: 'home', headerName: 'Home Team', width: 230 },
 	{ field: 'away', headerName: 'Away Team', width: 230 },
-	{ field: 'ref', headerName: 'Ref', width: 130 },
+	{ 
+		field: 'ref', 
+		headerName: 'Ref', 
+		width: 130,
+		valueOptions: ({ row }) => {
+			if (!row) {
+				return <Link href={`https://www.ekcsra.org/selfassign.php?x_formdata_form=&match=358862&position=Ref&action=Request&r_xmatch=358862+&r_xposition=Ref`}>Assign</Link>;
+			}
+			return row;
+		}
+	},
 	{ field: 'refPay', headerName: 'Ref Pay', width: 100 },
 	{ field: 'ar1', headerName: 'AR 1', width: 130 },
 	{ field: 'ar1Pay', headerName: 'AR 1 Pay', width: 100 },

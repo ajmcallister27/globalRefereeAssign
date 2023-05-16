@@ -13,10 +13,10 @@ const allEkcsraGames = JSON.parse(fs.readFileSync('app/src/data/ekcsraGames.json
 const allGameOfficialsGames = JSON.parse(fs.readFileSync('app/src/data/gameOfficialsGames.json', 'utf-8'));
 const allNSOGames = JSON.parse(fs.readFileSync('app/src/data/nsoGames.json', 'utf-8'));
 
-let allGames = [];
+// let allGames = [];
 
 function combineSources () {
-    allGames = (allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames)).filter(value => Object.keys(value).length !== 0);
+    let allGames = (allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames)).filter(value => Object.keys(value).length !== 0);
     fs.writeFile('app/src/data/allGames.json', JSON.stringify(allGames), (error) => {
         if (error) console.log(error);
         console.log('Data written to allGames.json successfully')
@@ -44,12 +44,12 @@ function filterGames(filter) {
 function init() {
     ekcsra.ekcsraScrape();
     combineSources();
-    filterGames('available');
+    // filterGames('available');
     cron.schedule('0 0 * * * *', () => init() )
 }
 function update() {
     combineSources();
-    filterGames('available');
+    // filterGames('available');
 }
 
 module.exports.init = function () { init(); }
