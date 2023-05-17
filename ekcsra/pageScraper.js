@@ -57,7 +57,7 @@ const scraperObject = {
 					notesLabel = await infoPage.$eval(`#x_formdata tr:nth-child(10) > .term`, text => text.textContent) 
 					if (notesLabel == 'Notes' ) {
 						notes = await infoPage.$eval(`tr:nth-child(10) > .inputNormal`, text => text.textContent)
-						try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch (err) { ref="NA"; console.log(err)};// try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch(err) {ref="NA"} };
+						try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch (err) { ref="NA"; console.log(err)};
 						try { ar1 = await infoPage.$eval(`tr:nth-child(13) > .input`, text => text.textContent) } catch (err) { ar1 = "NA" };
 						try { ar2 = await infoPage.$eval(`tr:nth-child(14) > .input`, text => text.textContent) } catch (err) { ar2 = "NA" };
 						try { r4 = await infoPage.$eval(`tr:nth-child(15) > .input`, text => text.textContent) } catch (err) { r4 = "NA" };
@@ -69,7 +69,7 @@ const scraperObject = {
 						try { mtrPay = await infoPage.$eval(`tr:nth-child(16) > .inputNormal`, text => text.textContent) } catch (err) { mtrPay = "NA" };
 					}
 				} catch (err) {
-					try { ref = await infoPage.$eval(`tr:nth-child(11) > .input`, text => text.textContent) } catch (err) { ref="NA"; console.log(err)};// try { ref = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch(err) {ref="NA"} };
+					try { ref = await infoPage.$eval(`tr:nth-child(11) > .input`, text => text.textContent) } catch (err) { ref="NA"; console.log(err)};
 					try { ar1 = await infoPage.$eval(`tr:nth-child(12) > .input`, text => text.textContent) } catch (err) { ar1 = "NA" };
 					try { ar2 = await infoPage.$eval(`tr:nth-child(13) > .input`, text => text.textContent) } catch (err) { ar2 = "NA" };
 					try { r4 = await infoPage.$eval(`tr:nth-child(14) > .input`, text => text.textContent) } catch (err) { r4 = "NA" };
@@ -80,37 +80,68 @@ const scraperObject = {
 					try { r4Pay = await infoPage.$eval(`tr:nth-child(14) > .inputNormal`, text => text.textContent) } catch (err) { r4Pay = "NA" };
 					try { mtrPay = await infoPage.$eval(`tr:nth-child(15) > .inputNormal`, text => text.textContent) } catch (err) { mtrPay = "NA" };
 
-					dataObj = {
-						source: 'EKCSRA',
-						id: gameId,
-						date: date,
-						time: time,
-						field: field,
-						gender: gender,
-						league: league,
-						client: client,
-						level: level,
-						authority: authority,
-						division: division,
-						season: season,
-						priority: priority,
-						type: type,
-						status: status,
-						rank: rank,
-						home: home,
-						away: away,
-						ref: ref,
-						ar1: ar1,
-						ar2: ar2,
-						r4: r4,
-						mtr: mtr,
-						refPay: refPay,
-						ar1Pay: ar1Pay,
-						ar2Pay: ar2Pay,
-						r4Pay: r4Pay,
-						mtrPay: mtrPay,
-					} 
+					// dataObj = {
+					// 	source: 'EKCSRA',
+					// 	id: gameId,
+					// 	date: date,
+					// 	time: time,
+					// 	field: field,
+					// 	gender: gender,
+					// 	league: league,
+					// 	client: client,
+					// 	level: level,
+					// 	authority: authority,
+					// 	division: division,
+					// 	season: season,
+					// 	priority: priority,
+					// 	type: type,
+					// 	status: status,
+					// 	rank: rank,
+					// 	home: home,
+					// 	away: away,
+					// 	ref: ref,
+					// 	ar1: ar1,
+					// 	ar2: ar2,
+					// 	r4: r4,
+					// 	mtr: mtr,
+					// 	refPay: refPay,
+					// 	ar1Pay: ar1Pay,
+					// 	ar2Pay: ar2Pay,
+					// 	r4Pay: r4Pay,
+					// 	mtrPay: mtrPay,
+					// } 
 				}
+
+				dataObj = {
+					source: 'EKCSRA',
+					id: gameId,
+					date: date,
+					time: time,
+					field: field,
+					gender: gender,
+					league: league,
+					client: client,
+					level: level,
+					authority: authority,
+					division: division,
+					season: season,
+					priority: priority,
+					type: type,
+					status: status,
+					rank: rank,
+					home: home,
+					away: away,
+					ref: ref,
+					ar1: ar1,
+					ar2: ar2,
+					r4: r4,
+					mtr: mtr,
+					refPay: refPay,
+					ar1Pay: ar1Pay,
+					ar2Pay: ar2Pay,
+					r4Pay: r4Pay,
+					mtrPay: mtrPay,
+				} 
 				resolve(dataObj);
 				await infoPage.close();
 

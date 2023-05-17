@@ -16,7 +16,7 @@ const allNSOGames = JSON.parse(fs.readFileSync('app/src/data/nsoGames.json', 'ut
 // let allGames = [];
 
 function combineSources () {
-    let allGames = (allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames)).filter(value => Object.keys(value).length !== 0);
+    let allGames = (allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames));
     fs.writeFile('app/src/data/allGames.json', JSON.stringify(allGames), (error) => {
         if (error) console.log(error);
         console.log('Data written to allGames.json successfully')
