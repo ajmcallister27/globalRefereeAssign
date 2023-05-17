@@ -11,7 +11,7 @@ const scraperObject = {
 		await page.type('#sitename', `${credentials.ekcsraUsername}`);
 		await page.type('#password', `${credentials.ekcsraPassword}`);
 		await page.click('#zLogon');
-		await page.waitForNavigation(); // Comment out if using headless
+		// await page.waitForNavigation(); // Comment out if using headless
 		await page.goto('https://www.ekcsra.org/refereeinquiry');
 		let scrapedData = [];
 

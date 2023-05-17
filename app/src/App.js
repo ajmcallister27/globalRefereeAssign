@@ -27,17 +27,43 @@ const columns = [
 		field: 'ref', 
 		headerName: 'Ref', 
 		width: 130,
-		valueOptions: ({ row }) => {
-			if (!row) {
-				return <Link href={`https://www.ekcsra.org/selfassign.php?x_formdata_form=&match=358862&position=Ref&action=Request&r_xmatch=358862+&r_xposition=Ref`}>Assign</Link>;
+		renderCell: (params) => {
+			console.log(params);
+			if (params.value === ' ' || !params.value) {
+				if (params.row.source === 'EKCSRA') {
+					return <Link href={`https://www.ekcsra.org/selfassign.php?x_formdata_form=&match=${params.row.id}&position=Ref&action=Request&r_xmatch=${params.row.id}+&r_xposition=Ref`}>Assign</Link>
+				}
 			}
-			return row;
 		}
 	},
 	{ field: 'refPay', headerName: 'Ref Pay', width: 100 },
-	{ field: 'ar1', headerName: 'AR 1', width: 130 },
+	{ 
+		field: 'ar1', 
+		headerName: 'AR 1', 
+		width: 130,
+		renderCell: (params) => {
+			console.log(params);
+			if (params.value === ' ' || !params.value) {
+				if (params.row.source === 'EKCSRA') {
+					return <Link href={`https://www.ekcsra.org/selfassign.php?x_formdata_form=&match=${params.row.id}&position=AR1&action=Request&r_xmatch=${params.row.id}+&r_xposition=Ref`}>Assign</Link>
+				}
+			}
+		} 
+	},
 	{ field: 'ar1Pay', headerName: 'AR 1 Pay', width: 100 },
-	{ field: 'ar2', headerName: 'AR 2', width: 130 },
+	{ 
+		field: 'ar2', 
+		headerName: 'AR 2', 
+		width: 130,
+		renderCell: (params) => {
+			console.log(params);
+			if (params.value === ' ' || !params.value) {
+				if (params.row.source === 'EKCSRA') {
+					return <Link href={`https://www.ekcsra.org/selfassign.php?x_formdata_form=&match=${params.row.id}&position=AR2&action=Request&r_xmatch=${params.row.id}+&r_xposition=Ref`}>Assign</Link>
+				}
+			}
+		} 
+	},
 	{ field: 'ar2Pay', headerName: 'AR 2 Pay', width: 100 },
 ];
 
