@@ -6,11 +6,26 @@ import { Link } from '@mui/material';
 console.log(gameData);
 
 const columns = [
-	{ field: 'source', headerName: 'Source', width: 100 },
+	{ 
+		field: 'source', 
+		headerName: 'Source', 
+		width: 100,
+		renderCell: (params) => {
+			if (params.value === 'EKCSRA') {
+				return <Link href='https://www.ekcsra.org'>EKCSRA</Link>
+			}
+			if (params.value === 'GameOfficials') {
+				return <Link href='https://www.gameofficials.net'>GameOfficials</Link>
+			}
+			if (params.value === 'NSO') {
+				return <Link href='https://www.nso.arbitersports.com'>NSO</Link>
+			}
+		}
+	},
 	{
 		field: 'id',
 		headerName: 'Game ID',
-		width: 100,
+		width: 90,
 		renderCell: (params) => (
 			<Link href={`https://www.ekcsra.org/refereeinquiry?action=Display&key=${params.value}`}>{params.value}</Link>
 			
@@ -18,15 +33,25 @@ const columns = [
 	},
 	{ field: 'date', headerName: 'Date', width: 200 },
 	{ field: 'time', headerName: 'Time', width: 100 },
-	{ field: 'field', headerName: 'Field', width: 150 },
+	{ 
+		field: 'field', 
+		headerName: 'Field', 
+		width: 150,
+		renderCell: (params) => {
+			if (params.value !== ' ' || params.value !== undefined) {
+				return <Link href={`https://www.ekcsra.org/fields.php?filKey=&filName=${params.value.split(' ')[0]}`}>{params.value}</Link>
+			}
+		}
+	},
 	{ field: 'gender', headerName: 'Gender', width: 70 },
 	{ field: 'level', headerName: 'Level', width: 70 },
 	{ field: 'home', headerName: 'Home Team', width: 230 },
 	{ field: 'away', headerName: 'Away Team', width: 230 },
+	{ field: 'notes', headerName: 'Notes', width: 240 },
 	{ 
 		field: 'ref', 
 		headerName: 'Ref', 
-		width: 130,
+		width: 230,
 		renderCell: (params) => {
 			console.log(params);
 			if (params.value === ' ' || !params.value) {
@@ -40,7 +65,7 @@ const columns = [
 	{ 
 		field: 'ar1', 
 		headerName: 'AR 1', 
-		width: 130,
+		width: 230,
 		renderCell: (params) => {
 			console.log(params);
 			if (params.value === ' ' || !params.value) {
@@ -54,7 +79,7 @@ const columns = [
 	{ 
 		field: 'ar2', 
 		headerName: 'AR 2', 
-		width: 130,
+		width: 230,
 		renderCell: (params) => {
 			console.log(params);
 			if (params.value === ' ' || !params.value) {
