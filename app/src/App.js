@@ -38,7 +38,7 @@ const columns = [
 		headerName: 'Field', 
 		width: 150,
 		renderCell: (params) => {
-			if (params.value !== ' ' || params.value !== undefined) {
+			if (params.value) {
 				return <Link href={`https://www.ekcsra.org/fields.php?filKey=&filName=${params.value.split(' ')[0]}`}>{params.value}</Link>
 			}
 		}
@@ -95,7 +95,7 @@ const columns = [
 function Links() {
 	return (
 		<div className='Links'>
-			<h2>Available Games:</h2>
+
 		</div>
 	);
 }
@@ -104,6 +104,7 @@ function Links() {
 function Data() {
 	return (
 		<div style={{ height: 555, width: '100%' }}>
+			<h2>Available Games:</h2>
 			<DataGrid
 				showCellVerticalBorder={true}
 				rows={gameData}
@@ -111,6 +112,15 @@ function Data() {
 				pageSize={5}
 				rowsPerPageOptions={[5]}
 			/>
+		</div>
+	);
+}
+
+function GameData() {
+	return (
+		<div className='GameData'>
+			<h2>Game Data:</h2>
+			<p>None provided</p>
 		</div>
 	);
 }
