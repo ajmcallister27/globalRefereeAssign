@@ -1,7 +1,7 @@
 import './App.css';
 import gameData from './data/allGames.json'
 import { DataGrid } from '@mui/x-data-grid';
-import { Link } from '@mui/material';
+import { Link, Button, ButtonGroup } from '@mui/material';
 
 console.log(gameData);
 
@@ -92,10 +92,18 @@ const columns = [
 	{ field: 'ar2Pay', headerName: 'AR 2 Pay', width: 100 },
 ];
 
+let showGameData = false;
+
+function showGameDataF() {
+	showGameData = true;
+}
+
 function Links() {
 	return (
 		<div className='Links'>
-
+			<ButtonGroup variant="contained" aria-label="outlined primary button group">
+				<Button onClick={showGameDataF()}>Show Current Game Data</Button>
+			</ButtonGroup>
 		</div>
 	);
 }
@@ -117,12 +125,19 @@ function Data() {
 }
 
 function GameData() {
+	if (showGameData === true) {
+		return (
+			<div className='GameData'>
+				<h2>Game Data:</h2>
+				<p>Game Data</p>
+			</div>
+		)
+	} else
 	return (
 		<div className='GameData'>
-			<h2>Game Data:</h2>
-			<p>None provided</p>
+			<p style="color: red;">No data to show</p>
 		</div>
-	);
+	)
 }
 
 function App() {
@@ -133,6 +148,7 @@ function App() {
 				<h2>GRASS</h2>
 			</div>
 			<Links />
+			<GameData />
 			<Data />
 		</div>
 	);
