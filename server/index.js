@@ -9,13 +9,17 @@ const fs = require('fs');
 const cron = require('node-cron');
 const ekcsra = require('../ekcsra/index');
 
-const allEkcsraGames = JSON.parse(fs.readFileSync('app/src/data/ekcsraGames.json', 'utf-8'));
-const allGameOfficialsGames = JSON.parse(fs.readFileSync('app/src/data/gameOfficialsGames.json', 'utf-8'));
-const allNSOGames = JSON.parse(fs.readFileSync('app/src/data/nsoGames.json', 'utf-8'));
+let allEkcsraGames = JSON.parse(fs.readFileSync('app/src/data/ekcsraGames.json', 'utf-8'));
+let allGameOfficialsGames = JSON.parse(fs.readFileSync('app/src/data/gameOfficialsGames.json', 'utf-8'));
+let allNSOGames = JSON.parse(fs.readFileSync('app/src/data/nsoGames.json', 'utf-8'));
 
 // let allGames = [];
 
 function combineSources () {
+    allEkcsraGames = JSON.parse(fs.readFileSync('app/src/data/ekcsraGames.json', 'utf-8'));
+    allGameOfficialsGames = JSON.parse(fs.readFileSync('app/src/data/gameOfficialsGames.json', 'utf-8'));
+    allNSOGames = JSON.parse(fs.readFileSync('app/src/data/nsoGames.json', 'utf-8'));
+    
     let allGames = (allEkcsraGames.concat(allGameOfficialsGames).concat(allNSOGames));
     fs.writeFile('app/src/data/allGames.json', JSON.stringify(allGames), (error) => {
         if (error) console.log(error);
@@ -56,4 +60,3 @@ module.exports.init = function () { init(); }
 module.exports.update = function () { update(); }
 
 init();
-update();

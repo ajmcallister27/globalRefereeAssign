@@ -79,37 +79,6 @@ const scraperObject = {
 					try { ar2Pay = await infoPage.$eval(`tr:nth-child(13) > .inputNormal`, text => text.textContent) } catch (err) { ar2Pay = "NA" };
 					try { r4Pay = await infoPage.$eval(`tr:nth-child(14) > .inputNormal`, text => text.textContent) } catch (err) { r4Pay = "NA" };
 					try { mtrPay = await infoPage.$eval(`tr:nth-child(15) > .inputNormal`, text => text.textContent) } catch (err) { mtrPay = "NA" };
-
-					// dataObj = {
-					// 	source: 'EKCSRA',
-					// 	id: gameId,
-					// 	date: date,
-					// 	time: time,
-					// 	field: field,
-					// 	gender: gender,
-					// 	league: league,
-					// 	client: client,
-					// 	level: level,
-					// 	authority: authority,
-					// 	division: division,
-					// 	season: season,
-					// 	priority: priority,
-					// 	type: type,
-					// 	status: status,
-					// 	rank: rank,
-					// 	home: home,
-					// 	away: away,
-					// 	ref: ref,
-					// 	ar1: ar1,
-					// 	ar2: ar2,
-					// 	r4: r4,
-					// 	mtr: mtr,
-					// 	refPay: refPay,
-					// 	ar1Pay: ar1Pay,
-					// 	ar2Pay: ar2Pay,
-					// 	r4Pay: r4Pay,
-					// 	mtrPay: mtrPay,
-					// } 
 				}
 
 				dataObj = {
@@ -131,6 +100,7 @@ const scraperObject = {
 					rank: rank,
 					home: home,
 					away: away,
+					notes: notes,
 					ref: ref,
 					ar1: ar1,
 					ar2: ar2,
