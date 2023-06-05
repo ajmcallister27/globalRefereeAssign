@@ -26,7 +26,7 @@ const columns = [
 		headerName: 'Game ID',
 		width: 90,
 		renderCell: (params) => (
-			<Link href={`https://www.ekcsra.org/refereeinquiry?action=Display&key=${params.value}`}>{params.value}</Link>
+			<Button onClick={() => displayGameData(params.rowNode.id)}>{params.value}</Button>
 
 		)
 	},
@@ -52,7 +52,6 @@ const columns = [
 		headerName: 'Ref',
 		width: 230,
 		renderCell: (params) => {
-			console.log(params);
 			if (params.value === ' ' || !params.value) {
 				if (params.row.source === 'EKCSRA') {
 					return <Link href={`https://www.ekcsra.org/selfassign.php?x_formdata_form=&match=${params.row.id}&position=Ref&action=Request&r_xmatch=${params.row.id}+&r_xposition=Ref`}>Assign</Link>
@@ -66,7 +65,6 @@ const columns = [
 		headerName: 'AR 1',
 		width: 230,
 		renderCell: (params) => {
-			console.log(params);
 			if (params.value === ' ' || !params.value) {
 				if (params.row.source === 'EKCSRA') {
 					return <Link href={`https://www.ekcsra.org/selfassign.php?x_formdata_form=&match=${params.row.id}&position=AR1&action=Request&r_xmatch=${params.row.id}+&r_xposition=Ref`}>Assign</Link>
@@ -80,7 +78,6 @@ const columns = [
 		headerName: 'AR 2',
 		width: 230,
 		renderCell: (params) => {
-			console.log(params);
 			if (params.value === ' ' || !params.value) {
 				if (params.row.source === 'EKCSRA') {
 					return <Link href={`https://www.ekcsra.org/selfassign.php?x_formdata_form=&match=${params.row.id}&position=AR2&action=Request&r_xmatch=${params.row.id}+&r_xposition=Ref`}>Assign</Link>
@@ -90,6 +87,13 @@ const columns = [
 	},
 	{ field: 'ar2Pay', headerName: 'AR 2 Pay', width: 100 },
 ];
+
+let gameToDisplay = {};
+
+function displayGameData(gameId) {
+	gameToDisplay = gameData.find(game => game.id === gameId);
+	console.log(gameToDisplay);
+}
 
 function Data() {
 	return (
@@ -122,7 +126,27 @@ function GameData() {
 					<Button onClick={handleDetailClick}>{gdDisplay ? 'Less' : 'More'} details</Button>
 				</ButtonGroup>
 			</div>
-			{gdDisplay ? <p>Details that are super cool</p> : <p>No details to display</p>}
+			{gdDisplay ? (
+				<p className='data'>
+					<b>Date: </b> {gameToDisplay.date} <br/>
+					<b>Location: </b> {gameToDisplay.field} <br/>
+					<b>Time: </b> {gameToDisplay.time} <br/>
+					<b>Gender: </b> {gameToDisplay.gender} <br/>
+					<b>Level: </b> {gameToDisplay.level} <br/>
+					<b>Home Team: </b> {gameToDisplay.home} <br/>
+					<b>Away Team: </b> {gameToDisplay.away} <br/>
+					<b>Notes: </b> {gameToDisplay.notes} <br/>
+					<b>Referee: </b> {gameToDisplay.ref} <br/>
+					<b>Referee Pay: </b> {gameToDisplay.refPay} <br/>
+					<b>AR 1: </b> {gameToDisplay.ar1} <br/>
+					<b>AR 1 Pay: </b> {gameToDisplay.ar1Pay} <br/>
+					<b>AR 2: </b> {gameToDisplay.ar2} <br/>
+					<b>AR 2 Pay: </b> {gameToDisplay.ar2Pay} <br/>
+					<b>4th Official: </b> {gameToDisplay.r4} <br/>
+				</p>
+			) : ( 
+				<></> 
+			)}
 		</div>
 	)
 }
