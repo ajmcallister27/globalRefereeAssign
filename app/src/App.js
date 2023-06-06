@@ -25,10 +25,9 @@ const columns = [
 		field: 'id',
 		headerName: 'Game ID',
 		width: 90,
-		renderCell: (params) => (
-			<Button onClick={() => displayGameData(params.rowNode.id)}>{params.value}</Button>
-
-		)
+		// renderCell: (params) => (
+		// 	<Button onClick={() => displayGameData(params.value)}>{params.value}</Button>
+		// )
 	},
 	{ field: 'date', headerName: 'Date', width: 200 },
 	{ field: 'time', headerName: 'Time', width: 100 },
@@ -88,70 +87,55 @@ const columns = [
 	{ field: 'ar2Pay', headerName: 'AR 2 Pay', width: 100 },
 ];
 
-let gameToDisplay = {};
-
-function displayGameData(gameId) {
-	gameToDisplay = gameData.find(game => game.id === gameId);
-	console.log(gameToDisplay);
-}
-
-function Data() {
-	return (
-		<div style={{ height: 555, width: '75%' }}>
-			<h2>Available Games:</h2>
-			<DataGrid
-				showCellVerticalBorder={true}
-				rows={gameData}
-				columns={columns}
-				pageSize={5}
-				rowsPerPageOptions={[5]}
-			/>
-		</div>
-	);
-}
+// function Data({ showGD }) {
+// 	return (
+// 		<div style={{ height: 555, width: '75%' }}>
+// 			<h2>Available Games:</h2>
+// 			<DataGrid
+// 				showCellVerticalBorder={true}
+// 				rows={gameData}
+// 				columns={columns}
+// 				pageSize={5}
+// 				rowsPerPageOptions={[5]}
+// 			/>
+// 		</div>
+// 	);
+// }
 
 
-function GameData() {
-	const [gdDisplay, setgdDisplay] = useState(false);
-
-	function handleDetailClick() {
-		setgdDisplay(!gdDisplay);
-	}
+function GameData({ gameToDisplay }) {
 
 	return (
 		<div className='GameData box'>
 			<h2>Game Details</h2>
-			<div className='Links'>
-				<ButtonGroup variant="contained" aria-label="outlined primary button group">
-					<Button onClick={handleDetailClick}>{gdDisplay ? 'Less' : 'More'} details</Button>
-				</ButtonGroup>
-			</div>
-			{gdDisplay ? (
-				<p className='data'>
-					<b>Date: </b> {gameToDisplay.date} <br/>
-					<b>Location: </b> {gameToDisplay.field} <br/>
-					<b>Time: </b> {gameToDisplay.time} <br/>
-					<b>Gender: </b> {gameToDisplay.gender} <br/>
-					<b>Level: </b> {gameToDisplay.level} <br/>
-					<b>Home Team: </b> {gameToDisplay.home} <br/>
-					<b>Away Team: </b> {gameToDisplay.away} <br/>
-					<b>Notes: </b> {gameToDisplay.notes} <br/>
-					<b>Referee: </b> {gameToDisplay.ref} <br/>
-					<b>Referee Pay: </b> {gameToDisplay.refPay} <br/>
-					<b>AR 1: </b> {gameToDisplay.ar1} <br/>
-					<b>AR 1 Pay: </b> {gameToDisplay.ar1Pay} <br/>
-					<b>AR 2: </b> {gameToDisplay.ar2} <br/>
-					<b>AR 2 Pay: </b> {gameToDisplay.ar2Pay} <br/>
-					<b>4th Official: </b> {gameToDisplay.r4} <br/>
-				</p>
-			) : ( 
-				<></> 
-			)}
+			<p className='data'>
+				<b>Date: </b> {gameToDisplay.date} <br/>
+				<b>Location: </b> {gameToDisplay.field} <br/>
+				<b>Time: </b> {gameToDisplay.time} <br/>
+				<b>Gender: </b> {gameToDisplay.gender} <br/>
+				<b>Level: </b> {gameToDisplay.level} <br/>
+				<b>Home Team: </b> {gameToDisplay.home} <br/>
+				<b>Away Team: </b> {gameToDisplay.away} <br/>
+				<b>Notes: </b> {gameToDisplay.notes} <br/>
+				<b>Referee: </b> {gameToDisplay.ref} <br/>
+				<b>Referee Pay: </b> {gameToDisplay.refPay} <br/>
+				<b>AR 1: </b> {gameToDisplay.ar1} <br/>
+				<b>AR 1 Pay: </b> {gameToDisplay.ar1Pay} <br/>
+				<b>AR 2: </b> {gameToDisplay.ar2} <br/>
+				<b>AR 2 Pay: </b> {gameToDisplay.ar2Pay} <br/>
+				<b>4th Official: </b> {gameToDisplay.r4} <br/>
+			</p>
 		</div>
 	)
 }
 
 function App() {
+	const [gdDisplay, setgdDisplay] = useState({'date': 'urmom'});
+
+	function displayGameData(gameId) {
+		setgdDisplay(gameData.find(game => game.id === gameId));
+	}
+
 	return (
 		<div className="App">
 			<div className='App-header'>
@@ -159,8 +143,20 @@ function App() {
 				<h2>GRASS</h2>
 			</div>
 			<div className='flex'>
-				<Data />
-				<GameData />
+				<div style={{ height: 555, width: '75%' }}>
+					<h2>Available Games:</h2>
+					<DataGrid
+						showCellVerticalBorder={true}
+						rows={gameData}
+						columns={columns}
+						pageSize={5}
+						rowsPerPageOptions={[5]}
+						onRowClick={(row) => displayGameData(row.row.id)}
+					/>
+				</div>
+				<GameData
+					gameToDisplay={gdDisplay}
+				/>
 			</div>
 		</div>
 	);
